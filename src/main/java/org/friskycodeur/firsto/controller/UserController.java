@@ -1,17 +1,13 @@
 package org.friskycodeur.firsto.controller;
 
-import org.friskycodeur.firsto.dao.UserDao;
-import org.friskycodeur.firsto.entity.Post;
-import org.friskycodeur.firsto.entity.User;
+import org.friskycodeur.firsto.dto.UserDto;
 import org.friskycodeur.firsto.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/users")
@@ -24,12 +20,12 @@ public class UserController {
     }
 
     @GetMapping("")
-    public List<UserDao> getUsers(){
+    public List<UserDto> getUsers() {
         return userService.getUsers();
     }
 
     @GetMapping("/stats")
-    public Map<String, Object> getUserStats(){
+    public Map<String, Object> getUserStats() {
         return userService.getUserStats();
     }
 

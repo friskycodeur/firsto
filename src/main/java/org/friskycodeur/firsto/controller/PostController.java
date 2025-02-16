@@ -1,10 +1,9 @@
 package org.friskycodeur.firsto.controller;
 
-import org.friskycodeur.firsto.dao.PostDao;
+import org.friskycodeur.firsto.dto.PostDto;
 import org.friskycodeur.firsto.entity.Post;
 import org.friskycodeur.firsto.service.PostService;
 import org.friskycodeur.firsto.util.UserContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,8 +12,8 @@ import java.util.List;
 @RequestMapping("/api/experience")
 public class PostController {
 
-    PostService postService;
     private final UserContext userContext;
+    PostService postService;
 
     public PostController(PostService postService, UserContext userContext) {
         this.postService = postService;
@@ -22,35 +21,35 @@ public class PostController {
     }
 
     @GetMapping("")
-    public List<PostDao> getUserExperiences(){
+    public List<PostDto> getUserExperiences() {
         return postService.getUserExperience(userContext.getCurrentUserId(), null);
     }
 
     @PostMapping("/add")
-    public List<PostDao> addUserExperience(@RequestBody PostDao post){
+    public List<PostDto> addUserExperience(@RequestBody PostDto post) {
         boolean postCreated = postService.createOrUpdatePost(post);
-        if(postCreated){
+        if (postCreated) {
             return postService.getUserExperience(userContext.getCurrentUserId(), null);
         }
         return null;
     }
 
     @GetMapping("/{postId}")
-    public Post getExperience(@PathVariable int postId){
+    public Post getExperience(@PathVariable int postId) {
         return postService.getExperience(postId);
     }
 
     @PostMapping("/update")
-    public Post updateExperience(@RequestBody PostDao post){
+    public Post updateExperience(@RequestBody PostDto post) {
         boolean postUpdated = postService.createOrUpdatePost(post);
-        if(postUpdated){
+        if (postUpdated) {
             return getExperience(post.getId());
         }
         return null;
     }
 
     @DeleteMapping("/delete/{postId}")
-    public void deleteExperience(@PathVariable int postId){
+    public void deleteExperience(@PathVariable int postId) {
         postService.deletePost(postId);
     }
 

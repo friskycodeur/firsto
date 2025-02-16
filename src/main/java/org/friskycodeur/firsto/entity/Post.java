@@ -5,20 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.friskycodeur.firsto.dao.PostDao;
-import org.springframework.security.core.parameters.P;
+import org.friskycodeur.firsto.dto.PostDto;
+import org.friskycodeur.firsto.dto.UserDto;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "posts")
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int  id;
+    private int id;
     private String title;
     private String description;
     private LocalDateTime experienceDate;
@@ -36,7 +37,11 @@ public class Post {
         this.user = user;
     }
 
-    public PostDao toDao(){
-        return new PostDao(getId(),getTitle(),getDescription(), getExperienceDate(), getLocation(), getUser().getId());
+    public PostDto toDao() {
+        return new PostDto(getId(), getTitle(), getDescription(), getExperienceDate(), getLocation(), getUserDto());
+    }
+
+    public UserDto getUserDto(){
+        return new UserDto(this.user.getId(), this.user.getUsername(), this.user.getRole());
     }
 }

@@ -1,20 +1,17 @@
-package org.friskycodeur.firsto.dao;
+package org.friskycodeur.firsto.dto;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.friskycodeur.firsto.entity.User;
 
 import java.time.LocalDateTime;
 
 @Data @AllArgsConstructor @NoArgsConstructor
-public class PostDao {
+public class PostDto {
     private int id;
     private String title;
     private String description;
     private LocalDateTime experienceDate;
     private String location;
-    private int userId;
+    private UserDto user;
 }
