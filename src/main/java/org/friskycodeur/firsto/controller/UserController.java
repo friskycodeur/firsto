@@ -1,15 +1,14 @@
 package org.friskycodeur.firsto.controller;
 
-import org.friskycodeur.firsto.dto.UserDto;
 import org.friskycodeur.firsto.service.UserService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-
 @RestController
+@CrossOrigin
 @RequestMapping("/api/users")
 public class UserController {
 
@@ -20,13 +19,13 @@ public class UserController {
     }
 
     @GetMapping("")
-    public List<UserDto> getUsers() {
-        return userService.getUsers();
+    public ResponseEntity<?> getUsers() {
+        return ResponseEntity.ok().body(userService.getUsers());
     }
 
     @GetMapping("/stats")
-    public Map<String, Object> getUserStats() {
-        return userService.getUserStats();
+    public ResponseEntity<?> getUserStats() {
+        return ResponseEntity.ok().body(userService.getUserStats());
     }
 
 

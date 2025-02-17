@@ -1,14 +1,13 @@
 package org.friskycodeur.firsto.controller;
 
 import org.friskycodeur.firsto.dto.PostDto;
-import org.friskycodeur.firsto.entity.Post;
 import org.friskycodeur.firsto.service.PostService;
 import org.friskycodeur.firsto.util.UserContext;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
+@CrossOrigin
 @RequestMapping("/api/experience")
 public class PostController {
 
@@ -21,34 +20,34 @@ public class PostController {
     }
 
     @GetMapping("")
-    public List<PostDto> getUserExperiences() {
-        return postService.getUserExperience(userContext.getCurrentUserId(), null);
+    public ResponseEntity<?> getUserExperiences() {
+        return ResponseEntity.ok().body(postService.getUserExperience(userContext.getCurrentUserId(), null));
     }
 
-    @PostMapping("/add")
-    public List<PostDto> addUserExperience(@RequestBody PostDto post) {
+    @PostMapping("")
+    public ResponseEntity<?> addUserExperience(@RequestBody PostDto post) {
         boolean postCreated = postService.createOrUpdatePost(post);
         if (postCreated) {
-            return postService.getUserExperience(userContext.getCurrentUserId(), null);
+            return ResponseEntity.ok().body(postService.getUserExperience(userContext.getCurrentUserId(), null));
         }
-        return null;
+        return ResponseEntity.internalServerError().build();
+    }
+
+    @PutMapping("")
+    public ResponseEntity<?> updateExperience(@RequestBody PostDto post) {
+        boolean postUpdated = postService.createOrUpdatePost(post);
+        if (postUpdated) {
+            return ResponseEntity.ok().body(getExperience(post.getId()));
+        }
+        return ResponseEntity.internalServerError().build();
     }
 
     @GetMapping("/{postId}")
-    public Post getExperience(@PathVariable int postId) {
-        return postService.getExperience(postId);
+    public ResponseEntity<?> getExperience(@PathVariable int postId) {
+        return ResponseEntity.ok().body(postService.getExperience(postId));
     }
 
-    @PostMapping("/update")
-    public Post updateExperience(@RequestBody PostDto post) {
-        boolean postUpdated = postService.createOrUpdatePost(post);
-        if (postUpdated) {
-            return getExperience(post.getId());
-        }
-        return null;
-    }
-
-    @DeleteMapping("/delete/{postId}")
+    @DeleteMapping("/{postId}")
     public void deleteExperience(@PathVariable int postId) {
         postService.deletePost(postId);
     }
